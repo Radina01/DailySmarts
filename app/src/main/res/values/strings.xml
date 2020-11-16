@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DailySmarts</string>
+    <string name="quote">Quote</string>
+    <string name="author">author</string>
 </resources>
