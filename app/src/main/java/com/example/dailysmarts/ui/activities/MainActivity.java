@@ -27,19 +27,19 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onViewCreated() {
+        tabManager();
+    }
 
+    private void tabManager() {
         TabLayout tabLayout = findViewById(R.id.tabs);
         TabAdapter fragmentAdapter = new TabAdapter(this.getSupportFragmentManager(), getLifecycle());
-
         ViewPager2 viewPager2 = findViewById(R.id.viewpager);
         viewPager2.setAdapter(fragmentAdapter);
         viewPager2.setUserInputEnabled(false);
         TabLayoutMediator mediator = new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
-            Log.e("ASDASD", "" + position);
-            if (position == 0){
+            if (position == 0) {
                 tab.setText("Daily Quotes");
-            }
-            else {
+            } else {
                 tab.setText("Favourite Quotes");
             }
         });
