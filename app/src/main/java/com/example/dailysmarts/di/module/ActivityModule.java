@@ -1,6 +1,6 @@
 package com.example.dailysmarts.di.module;
 
-import com.example.dailysmarts.ui.activitites.MainActivity;
+import com.example.dailysmarts.ui.activities.MainActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
