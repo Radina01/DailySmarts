@@ -3,12 +3,14 @@ package com.example.dailysmarts;
 import android.app.Application;
 
 import javax.inject.Inject;
-import  com.example.dailysmarts.di.DaggerApplicationComponent;
+
+import com.example.dailysmarts.di.DaggerApplicationComponent;
+
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasAndroidInjector;
 
-public class DailySmartsApplication  extends Application implements HasAndroidInjector {
+public class DailySmartsApplication extends Application implements HasAndroidInjector {
 
     @Inject
     DispatchingAndroidInjector<Object> activityDispatchingAndroidInjector;
