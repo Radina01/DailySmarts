@@ -16,7 +16,8 @@ public class Quote {
     @ColumnInfo(name = "author")
     public String author;
 
-    public Quote(){}
+    public Quote() {
+    }
 
     public Quote(String quote, String author) {
         this.quote = quote;

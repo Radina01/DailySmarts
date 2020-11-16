@@ -20,9 +20,12 @@ public class TabAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
-            case 0: return new TabDailyQuote();
-            case 1: return new TabMyQuotes();
-            default: throw new IllegalArgumentException("There are not that much fragments");
+            case 0:
+                return new TabDailyQuote();
+            case 1:
+                return new TabMyQuotes();
+            default:
+                throw new IllegalArgumentException("There are not that much fragments");
         }
     }
 

@@ -14,7 +14,7 @@ public class QuoteService {
     }
 
     public void getAllQuotes(DataListener<List<Quote>> dataListener) {
-        new AsyncTask<Void, Void, List<Quote>>(){
+        new AsyncTask<Void, Void, List<Quote>>() {
             @Override
             protected List<Quote> doInBackground(Void... voids) {
                 return quoteDao.getAll();
@@ -28,7 +28,7 @@ public class QuoteService {
     }
 
     public void addQuote(Quote quote) {
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... voids) {
@@ -40,7 +40,7 @@ public class QuoteService {
     }
 
     public void deleteQuote(Quote quote) {
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... voids) {

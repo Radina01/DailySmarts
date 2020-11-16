@@ -6,7 +6,7 @@ import android.view.View;
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.databinding.FragmentMyQuotesBinding;
 
-public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding>{
+public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> {
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_my_quotes;
