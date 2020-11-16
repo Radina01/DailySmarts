@@ -1,7 +1,7 @@
 package com.example.dailysmarts.di.module;
 
 import com.example.dailysmarts.ui.fragments.TabDailyQuote;
-import com.example.dailysmarts.ui.fragments.TabFavouriteQuotes;
+import com.example.dailysmarts.ui.fragments.TabMyQuotes;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -13,5 +13,5 @@ public abstract class FragmentsModule {
     abstract TabDailyQuote provideTabDailyQuote();
 
     @ContributesAndroidInjector
-    abstract TabFavouriteQuotes provideTabFavouriteQuotes();
+    abstract TabMyQuotes provideTabFavouriteQuotes();
 }

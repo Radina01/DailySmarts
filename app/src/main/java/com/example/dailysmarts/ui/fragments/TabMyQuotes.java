@@ -3,15 +3,13 @@ package com.example.dailysmarts.ui.fragments;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.fragment.app.Fragment;
-
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.databinding.FragmentFavouriteQuotesBinding;
 
-public class TabFavouriteQuotes extends BaseFragment<FragmentFavouriteQuotesBinding>{
+public class TabMyQuotes extends BaseFragment<FragmentFavouriteQuotesBinding>{
     @Override
     protected int getLayoutRes() {
-        return R.layout.fragment_favourite_quotes;
+        return R.layout.fragment_my_quotes;
     }
 
     @Override

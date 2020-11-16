@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toolbar;
 
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.ui.adapters.TabAdapter;
@@ -40,9 +41,10 @@ public class MainActivity extends BaseActivity {
             if (position == 0) {
                 tab.setText("Daily Quotes");
             } else {
-                tab.setText("Favourite Quotes");
+                tab.setText("My quotes");
             }
         });
         mediator.attach();
     }
 }
+
