@@ -13,5 +13,5 @@ public abstract class FragmentsModule {
     abstract TabDailyQuote provideTabDailyQuote();
 
     @ContributesAndroidInjector
-    abstract TabMyQuotes provideTabFavouriteQuotes();
+    abstract TabMyQuotes provideTabMyQuotes();
 }
