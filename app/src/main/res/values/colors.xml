@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorWhite">#fffefc</color>
-    <color name="colorBlack">#000000</color>
-    <color name="colorGrey">#242320</color>
+    <color name="colorWhite">#fff</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorGrey">#333</color>
 </resources>
