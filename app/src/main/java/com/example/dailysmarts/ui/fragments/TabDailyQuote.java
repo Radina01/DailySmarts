@@ -1,16 +1,11 @@
 package com.example.dailysmarts.ui.fragments;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import androidx.annotation.NonNull;
-
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.databinding.FragmentDailyQuoteBinding;
 
@@ -28,7 +23,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.action_refresh){
+        if (item.getItemId() == R.id.action_refresh) {
             reload();
             return true;
         }
@@ -42,7 +37,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void reload(){
+    private void reload() {
         getLayoutRes();
     }
 }
