@@ -5,11 +5,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.dailysmarts.R;
@@ -38,13 +47,17 @@ public class MainActivity extends BaseActivity {
         viewPager2.setAdapter(fragmentAdapter);
         viewPager2.setUserInputEnabled(false);
         TabLayoutMediator mediator = new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
-            if (position == 0) {
-                tab.setText("Daily Quotes");
-            } else {
-                tab.setText("My quotes");
-            }
+            checkPositionAndSetText(position, tab);
         });
         mediator.attach();
+    }
+
+    private void checkPositionAndSetText(Integer position, TabLayout.Tab tab){
+        if (position == 0) {
+            tab.setText("Daily Quotes");
+        } else {
+            tab.setText("My quotes");
+        }
     }
 }
 
