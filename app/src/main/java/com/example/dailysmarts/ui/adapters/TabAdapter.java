@@ -16,7 +16,7 @@ public class TabAdapter extends FragmentStateAdapter {
     private TabDailyQuote provideTabDailyQuote;
     private TabMyQuotes provideTabMyQuotes;
 
-
+    @Inject
     public TabAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, TabDailyQuote tabDailyQuote, TabMyQuotes tabMyQuotes) {
         super(fragmentManager, lifecycle);
         this.provideTabDailyQuote = tabDailyQuote;

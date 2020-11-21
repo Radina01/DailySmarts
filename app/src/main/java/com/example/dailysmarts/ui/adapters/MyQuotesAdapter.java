@@ -15,10 +15,13 @@ import com.example.dailysmarts.data.database.Quote;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHolder> {
 
     List<Quote> quotes;
 
+    @Inject
     public MyQuotesAdapter() {
         quotes = new ArrayList<>();
     }

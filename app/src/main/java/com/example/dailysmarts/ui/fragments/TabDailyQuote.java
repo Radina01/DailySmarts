@@ -23,6 +23,10 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> {
         setHasOptionsMenu(true);
     }
 
+    @Inject
+    public TabDailyQuote() {
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {

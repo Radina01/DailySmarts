@@ -5,13 +5,17 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-public class QuoteService {
-    private final QuoteDao quoteDao;
-    private DataListener<List<QuoteDao>> dataListener;
+import javax.inject.Inject;
 
+public class QuoteService {
+
+    private final QuoteDao quoteDao;
+
+    @Inject
     public QuoteService(Context context) {
         quoteDao = Database.getInstance(context).quoteDao();
     }
+
 
     public void getAllQuotes(DataListener<List<Quote>> dataListener) {
         new AsyncTask<Void, Void, List<Quote>>() {
