@@ -23,12 +23,22 @@ import android.widget.Toolbar;
 
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.ui.adapters.TabAdapter;
+import com.example.dailysmarts.ui.fragments.TabDailyQuote;
+import com.example.dailysmarts.ui.fragments.TabMyQuotes;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+
+    @Inject
+    TabDailyQuote tabDailyQuote;
+
+    @Inject
+    TabMyQuotes tabMyQuotes;
 
     @Override
     protected int getLayoutRes() {
@@ -42,7 +52,7 @@ public class MainActivity extends BaseActivity {
 
     private void tabManager() {
         TabLayout tabLayout = findViewById(R.id.tabs);
-        TabAdapter fragmentAdapter = new TabAdapter(this.getSupportFragmentManager(), getLifecycle());
+        TabAdapter fragmentAdapter = new TabAdapter(this.getSupportFragmentManager(), getLifecycle(), tabDailyQuote, tabMyQuotes);
         ViewPager2 viewPager2 = findViewById(R.id.viewpager);
         viewPager2.setAdapter(fragmentAdapter);
         viewPager2.setUserInputEnabled(false);

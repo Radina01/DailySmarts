@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.databinding.FragmentDailyQuoteBinding;
 
+import javax.inject.Inject;
+
 public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> {
 
     @Override
