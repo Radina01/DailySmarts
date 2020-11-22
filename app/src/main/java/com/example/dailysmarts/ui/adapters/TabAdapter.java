@@ -29,9 +29,9 @@ public class TabAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return provideTabMyQuotes;
-            case 1:
                 return provideTabDailyQuote;
+            case 1:
+                return provideTabMyQuotes;
             default:
                 throw new IllegalArgumentException("There are not that much fragments");
         }

@@ -5,6 +5,7 @@ import android.app.Application;
 import javax.inject.Inject;
 
 import com.example.dailysmarts.di.DaggerApplicationComponent;
+import com.example.dailysmarts.di.module.DataModule;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;

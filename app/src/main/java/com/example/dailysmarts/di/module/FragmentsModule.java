@@ -12,8 +12,8 @@ public abstract class FragmentsModule {
 
 
     @ContributesAndroidInjector
-    abstract TabDailyQuote bingTabDailyQuote();
+    abstract TabDailyQuote provideTabDailyQuote();
 
     @ContributesAndroidInjector
-    abstract TabMyQuotes bingTabMyQuotes();
+    abstract TabMyQuotes provideTabMyQuotes();
 }

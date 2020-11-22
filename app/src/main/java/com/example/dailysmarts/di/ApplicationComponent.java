@@ -1,7 +1,10 @@
 package com.example.dailysmarts.di;
 
+import android.app.Application;
+
 import com.example.dailysmarts.DailySmartsApplication;
 import com.example.dailysmarts.di.module.ActivityModule;
+import com.example.dailysmarts.di.module.AppModule;
 import com.example.dailysmarts.di.module.ContractsModule;
 import com.example.dailysmarts.di.module.DataModule;
 import com.example.dailysmarts.di.module.FragmentsModule;
@@ -20,7 +23,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         DataModule.class,
         ActivityModule.class,
         FragmentsModule.class,
-        ContractsModule.class
+        ContractsModule.class,
+        AppModule.class
 })
 public interface ApplicationComponent {
 
@@ -31,6 +35,7 @@ public interface ApplicationComponent {
 
         @BindsInstance
         Builder applicationBind(DailySmartsApplication dailySmartsApplication);
+
 
         ApplicationComponent build();
     }
