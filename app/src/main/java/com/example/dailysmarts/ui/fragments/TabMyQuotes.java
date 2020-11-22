@@ -1,5 +1,6 @@
 package com.example.dailysmarts.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,10 +12,18 @@ import com.example.dailysmarts.data.database.QuoteService;
 import com.example.dailysmarts.databinding.FragmentMyQuotesBinding;
 import com.example.dailysmarts.ui.adapters.MyQuotesAdapter;
 
+import javax.inject.Inject;
+
 public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> {
 
-    QuoteService quoteService;
-    MyQuotesAdapter adapter;
+    @Inject QuoteService quoteService;
+    @Inject MyQuotesAdapter adapter;
+
+    @Inject
+    public TabMyQuotes(QuoteService quoteService, MyQuotesAdapter adapter) {
+        this.quoteService = quoteService;
+        this.adapter = adapter;
+    }
 
     @Override
     protected int getLayoutRes() {

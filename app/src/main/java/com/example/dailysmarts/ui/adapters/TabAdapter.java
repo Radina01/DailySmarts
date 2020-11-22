@@ -9,25 +9,34 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.example.dailysmarts.ui.fragments.TabDailyQuote;
 import com.example.dailysmarts.ui.fragments.TabMyQuotes;
 
+import javax.inject.Inject;
+
 public class TabAdapter extends FragmentStateAdapter {
 
+    private TabDailyQuote provideTabDailyQuote;
+    private TabMyQuotes provideTabMyQuotes;
 
-    public TabAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    @Inject
+    public TabAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, TabDailyQuote tabDailyQuote, TabMyQuotes tabMyQuotes) {
         super(fragmentManager, lifecycle);
+        this.provideTabDailyQuote = tabDailyQuote;
+        this.provideTabMyQuotes = tabMyQuotes;
     }
+
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new TabDailyQuote();
+                return provideTabDailyQuote;
             case 1:
-                return new TabMyQuotes();
+                return provideTabMyQuotes;
             default:
                 throw new IllegalArgumentException("There are not that much fragments");
         }
     }
+
 
     @Override
     public int getItemCount() {
