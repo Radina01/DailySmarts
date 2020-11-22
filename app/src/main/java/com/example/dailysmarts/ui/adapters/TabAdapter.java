@@ -38,7 +38,6 @@ public class TabAdapter extends FragmentStateAdapter {
     }
 
 
-
     @Override
     public int getItemCount() {
         return 2;
