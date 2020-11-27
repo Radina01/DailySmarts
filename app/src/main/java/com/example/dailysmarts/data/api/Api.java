@@ -14,7 +14,7 @@ public class Api {
 
     private Api() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://programming-quotes-api.herokuapp.com/")
+                .baseUrl("http://api.forismatic.com/api/1.0/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -26,8 +26,26 @@ public class Api {
         return instance;
     }
 
-    public void getRandomQuote(final ApiListener listener) {
-        service.getRandomQuote().enqueue(new Callback<Quote>() {
+    public void getRandomEngQuote(final ApiListener listener) {
+        service.getRandomEngQuote().enqueue(new Callback<Quote>() {
+            @Override
+            public void onResponse(Call<Quote> call, Response<Quote> response) {
+                if (response.isSuccessful()) {
+                    listener.onQuoteReceived(response.body().getQuoteText(), response.body().getQuoteAuthor());
+                } else {
+                    listener.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Quote> call, Throwable t) {
+                listener.onFailure();
+            }
+        });
+    }
+
+    public void getRandomRusQuote(final ApiListener listener) {
+        service.getRandomRusQuote().enqueue(new Callback<Quote>() {
             @Override
             public void onResponse(Call<Quote> call, Response<Quote> response) {
                 if (response.isSuccessful()) {
