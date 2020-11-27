@@ -11,36 +11,36 @@ public class Quote {
     public int id;
 
     @ColumnInfo(name = "quote")
-    public String quote;
+    public String quoteText;
 
     @ColumnInfo(name = "author")
-    public String author;
+    public String quoteAuthor;
 
     public Quote() {
     }
 
-    public Quote(String quote, String author) {
-        this.quote = quote;
-        this.author = author;
+    public Quote(String quoteText, String quoteAuthor) {
+        this.quoteText = quoteText;
+        this.quoteAuthor = quoteAuthor;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getQuote() {
-        return quote;
+    public String getQuoteText() {
+        return quoteText;
     }
 
-    public void setQuote(String quote) {
-        this.quote = quote;
+    public void setQuoteText(String quoteText) {
+        this.quoteText = quoteText;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getQuoteAuthor() {
+        return quoteAuthor;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setQuoteAuthor(String quoteAuthor) {
+        this.quoteAuthor = quoteAuthor;
     }
 }
