@@ -1,5 +1,8 @@
 package com.example.dailysmarts.data.api;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.example.dailysmarts.data.database.Quote;
 
 import retrofit2.Call;
@@ -14,7 +17,7 @@ public class Api {
 
     private Api() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.forismatic.com")
+                .baseUrl("http://api.forismatic.com/api/1.0/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
