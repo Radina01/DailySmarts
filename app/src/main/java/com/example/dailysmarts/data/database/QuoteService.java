@@ -11,7 +11,7 @@ import dagger.Provides;
 
 public class QuoteService {
 
-    private final QuoteDao quoteDao;
+    @Inject QuoteDao quoteDao;
 
     @Inject
     public QuoteService(Context context) {

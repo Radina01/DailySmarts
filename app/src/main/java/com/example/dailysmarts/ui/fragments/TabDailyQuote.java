@@ -1,5 +1,6 @@
 package com.example.dailysmarts.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> {
     @Override
     protected void onFragmentCreated(View view, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        onClickShare();
     }
 
     @Inject
@@ -46,4 +48,19 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> {
     private void reload() {
         getLayoutRes();
     }
+
+    public void onClickShare(){
+        binding.btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "Here is the share content body";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            }
+        });
+    }
+
 }

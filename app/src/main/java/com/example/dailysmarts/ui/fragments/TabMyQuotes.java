@@ -38,11 +38,13 @@ public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> {
         adapter = new MyQuotesAdapter();
         binding.rvQuotes.setAdapter(adapter);
 
-        loadStudents();
+        loadQuotes();
 
     }
 
-    private void loadStudents() {
+    private void loadQuotes() {
         quoteService.getAllQuotes(data -> adapter.setQuotes(data));
     }
+
+
 }
