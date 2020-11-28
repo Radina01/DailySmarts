@@ -17,7 +17,7 @@ public class Api {
 
     private Api() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.forismatic.com/api/1.0/")
+                .baseUrl("https://api.forismatic.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
