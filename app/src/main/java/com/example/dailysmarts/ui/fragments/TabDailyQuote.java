@@ -46,4 +46,5 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> {
     private void reload() {
         getLayoutRes();
     }
+
 }

@@ -38,4 +38,5 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     protected abstract void onFragmentCreated(View view, Bundle savedInstanceState);
 
 
+
 }

@@ -1,4 +1,19 @@
 package com.example.dailysmarts.core.presenters;
 
-public class TabDailyQuotePresenter {
+import com.example.dailysmarts.core.contracts.TabDailyQuoteContract;
+
+public class TabDailyQuotePresenter implements TabDailyQuoteContract.PresenterListener{
+
+    private TabDailyQuoteContract.ViewListener viewListener;
+
+    @Override
+    public void setViewListener(TabDailyQuoteContract.ViewListener viewListener) {
+        this.viewListener = viewListener;
+    }
+
+    @Override
+    public void onRefreshButtonClicked() {
+
+    }
+
 }
