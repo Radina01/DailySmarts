@@ -44,4 +44,8 @@ public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> {
     private void loadStudents() {
         quoteDBService.getAllQuotes(data -> adapter.setQuotes(data));
     }
+
+    public interface OnFragmentInteractionListener {
+
+    }
 }

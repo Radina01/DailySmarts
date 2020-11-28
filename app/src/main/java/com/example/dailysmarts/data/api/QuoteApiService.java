@@ -5,6 +5,7 @@ import com.example.dailysmarts.data.database.Quote;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public interface QuoteApiService {
     @GET("/?method=getQuote&format=json&lang=en")

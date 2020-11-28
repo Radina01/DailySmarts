@@ -1,5 +1,8 @@
 package com.example.dailysmarts.data.api;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.example.dailysmarts.data.database.Quote;
 
 import retrofit2.Call;
