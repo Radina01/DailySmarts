@@ -13,7 +13,7 @@ public class TabDailyQuotePresenter implements TabDailyQuoteContract.PresenterLi
 
     @Override
     public void onRefreshButtonClicked() {
-
+        viewListener.generateNewQuote();
     }
 
 }
