@@ -58,7 +58,6 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     @Override
     public void generateNewQuote() {
-        System.out.println("main");
         Api.getInstance().getRandomEngQuote(new Api.ApiListener() {
 
             @Override
