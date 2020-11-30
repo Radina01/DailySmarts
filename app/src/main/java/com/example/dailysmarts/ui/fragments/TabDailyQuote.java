@@ -62,6 +62,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
             @Override
             public void onQuoteReceived(String quote, String author) {
+                if (author.equals("")) author = "~unknown~";
                 binding.txtQuote.setText(quote);
                 binding.txtAuthor.setText(author);
             }
