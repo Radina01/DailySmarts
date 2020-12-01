@@ -61,8 +61,8 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtQuote = itemView.findViewById(R.id.txtAuthor);
-            txtAuthor = itemView.findViewById(R.id.txtQuote);
+            txtQuote = itemView.findViewById(R.id.txtQuote);
+            txtAuthor = itemView.findViewById(R.id.txtAuthor);
             btnSave = itemView.findViewById(R.id.btnSave);
             btnShare = itemView.findViewById(R.id.btnShare);
         }

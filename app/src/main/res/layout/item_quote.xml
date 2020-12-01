@@ -1,50 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorWhite">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/txtQuote"
+    <LinearLayout
+        android:id="@+id/fragment_daily_quote"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_margin="6dp"
-        android:text="@string/quote"
-        android:textSize="100sp"
-        app:layout_constraintBottom_toTopOf="@id/txtAuthor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtAuthor"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:text="@string/author"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtQuote" />
+        android:background="@color/colorGrey"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/empty_heart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtQuote" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/quote_background"
+            android:padding="10sp">
 
-    <Button
-        android:id="@+id/btnShare"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/share_button"
-        app:layout_constraintStart_toEndOf="@id/btnSave"
-        app:layout_constraintTop_toBottomOf="@id/txtQuote" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/txtQuote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="120dp"
+                android:layout_margin="6dp"
+                android:text="@string/quote"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/respLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/respLayout"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/mainLayout"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/txtAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:padding="2dp"
+                    android:text="@string/author"
+                    android:textSize="15sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_margin="6dp"
+                android:background="@drawable/empty_heart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/mainLayout" />
+
+            <Button
+                android:id="@+id/btnShare"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_margin="6dp"
+                android:background="@drawable/share_button"
+                app:layout_constraintStart_toEndOf="@id/btnSave"
+                app:layout_constraintBottom_toBottomOf="@id/mainLayout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>
