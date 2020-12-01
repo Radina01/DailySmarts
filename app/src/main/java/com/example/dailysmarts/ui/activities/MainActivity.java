@@ -7,8 +7,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -48,8 +52,21 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onViewCreated() {
-
-        tabManager();
+        if(!isNetworkAvailable()){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Please check your internet connection and try again")
+                    .setTitle("Not connected").setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    recreate();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else {
+            tabManager();
+        }
     }
 
     private void tabManager() {
@@ -70,6 +87,11 @@ public class MainActivity extends BaseActivity {
         } else {
             tab.setText("My quotes");
         }
+    }
+    private boolean isNetworkAvailable(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 }
 
