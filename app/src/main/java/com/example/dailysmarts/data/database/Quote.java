@@ -2,6 +2,7 @@ package com.example.dailysmarts.data.database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "quotes")
@@ -19,6 +20,7 @@ public class Quote {
     public Quote() {
     }
 
+    @Ignore
     public Quote(String quoteText, String quoteAuthor) {
         this.quoteText = quoteText;
         this.quoteAuthor = quoteAuthor;

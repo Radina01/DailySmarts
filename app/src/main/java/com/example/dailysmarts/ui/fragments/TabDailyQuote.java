@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.core.contracts.TabDailyQuoteContract;
 import com.example.dailysmarts.data.api.Api;
@@ -20,8 +21,10 @@ import javax.inject.Inject;
 
 public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> implements TabDailyQuoteContract.ViewListener {
 
-    @Inject TabDailyQuoteContract.PresenterListener presenterListener;
-    @Inject QuoteDBService dbService;
+    @Inject
+    TabDailyQuoteContract.PresenterListener presenterListener;
+    @Inject
+    QuoteDBService dbService;
 
     @Override
     protected int getLayoutRes() {
@@ -50,7 +53,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     }
 
-    private void setOnClickListeners(){
+    private void setOnClickListeners() {
         binding.btnSave.setOnClickListener(v -> saveQuoteInDatabase());
     }
 
@@ -60,7 +63,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void reload() {
+    public void reload() {
         getLayoutRes();
     }
 
@@ -79,11 +82,18 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 Toast.makeText(getContext(), "Something happened", Toast.LENGTH_LONG).show();
             }
         });
+        binding.btnSave.setBackgroundResource(R.drawable.full_heart);
     }
 
     @Override
     public void saveQuoteInDatabase() {
-        Quote quote = new Quote(binding.txtQuote.getText().toString(), binding.txtAuthor.getText().toString());
+        //String author is used for checking if author is unknown(if the Api responses with empty string for author)
+        String author = binding.txtQuote.getText().toString().equals("") ? "unknown" : binding.txtQuote.getText().toString();
+
+        Quote quote = new Quote(author, binding.txtAuthor.getText().toString());
         dbService.addQuote(quote);
+
+
+        binding.btnSave.setBackgroundResource(R.drawable.full_heart);
     }
 }

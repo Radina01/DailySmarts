@@ -3,6 +3,7 @@ package com.example.dailysmarts.ui.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.ActionBar;
@@ -48,6 +49,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onViewCreated() {
+        SwipeRefreshLayout pullToRefresh = findViewById(R.id.swipeRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData(); // your code
+                pullToRefresh.setRefreshing(false);
+            }
+        });
 
         tabManager();
     }
@@ -70,6 +79,11 @@ public class MainActivity extends BaseActivity {
         } else {
             tab.setText("My quotes");
         }
+    }
+
+    void refreshData(){
+        tabMyQuotes.reload();
+        tabDailyQuote.reload();
     }
 }
 

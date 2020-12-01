@@ -41,11 +41,12 @@ public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> {
 
     }
 
-    private void loadStudents() {
-        quoteDBService.getAllQuotes(data -> adapter.setQuotes(data));
+    @Override
+    public void reload() {
+        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }
 
-    public interface OnFragmentInteractionListener {
-
+    private void loadStudents() {
+        quoteDBService.getAllQuotes(data -> adapter.setQuotes(data));
     }
 }
