@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.core.contracts.TabDailyQuoteContract;
 import com.example.dailysmarts.data.api.Api;
+import com.example.dailysmarts.data.database.Quote;
+import com.example.dailysmarts.data.database.QuoteDBService;
 import com.example.dailysmarts.databinding.FragmentDailyQuoteBinding;
 import com.example.dailysmarts.ui.activities.MainActivity;
 
@@ -19,6 +21,7 @@ import javax.inject.Inject;
 public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> implements TabDailyQuoteContract.ViewListener {
 
     @Inject TabDailyQuoteContract.PresenterListener presenterListener;
+    @Inject QuoteDBService dbService;
 
     @Override
     protected int getLayoutRes() {
@@ -29,6 +32,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
     protected void onFragmentCreated(View view, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         presenterListener.setViewListener(this);
+        setOnClickListeners();
     }
 
     @Inject
@@ -44,6 +48,10 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    private void setOnClickListeners(){
+        binding.btnSave.setOnClickListener(v -> saveQuoteInDatabase());
     }
 
     @Override
@@ -71,5 +79,11 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 Toast.makeText(getContext(), "Something happened", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void saveQuoteInDatabase() {
+        Quote quote = new Quote(binding.txtQuote.getText().toString(), binding.txtAuthor.getText().toString());
+        dbService.addQuote(quote);
     }
 }

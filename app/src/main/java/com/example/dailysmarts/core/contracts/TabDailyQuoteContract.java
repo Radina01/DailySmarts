@@ -4,11 +4,13 @@ public interface TabDailyQuoteContract {
 
     interface ViewListener {
         void generateNewQuote();
+        void saveQuoteInDatabase();
     }
 
     interface PresenterListener {
         void setViewListener(ViewListener viewListener);
         void onRefreshButtonClicked();
+        void onSaveButtonClicked();
     }
 
 }
