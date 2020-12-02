@@ -3,6 +3,7 @@ package com.example.dailysmarts.ui.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.ActionBar;
@@ -88,10 +89,17 @@ public class MainActivity extends BaseActivity {
             tab.setText("My quotes");
         }
     }
+
+
+    void refreshData(){
+        tabMyQuotes.reload();
+        tabDailyQuote.reload();
+
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+
     }
 }
 
