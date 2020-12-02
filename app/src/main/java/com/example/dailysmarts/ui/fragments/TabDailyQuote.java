@@ -38,19 +38,8 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     @Override
     protected void onFragmentCreated(View view, Bundle savedInstanceState) {
-//        final List<DailyQuote>[] dailyQuotes = new List[]{null};
-        dailyQuoteDBService = new DailyQuoteDBService(getContext());
-        dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
-            @Override
-            public void onData(List<DailyQuote> data) {
-//                dailyQuotes[0] = data;
-            }
-        });
         setHasOptionsMenu(true);
         presenterListener.setViewListener(this);
-//        if (dailyQuotes[0].isEmpty()){
-//            getQuote();
-//        }
     }
     @Inject
     public TabDailyQuote() {
