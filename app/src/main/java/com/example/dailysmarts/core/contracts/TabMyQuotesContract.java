@@ -7,6 +7,5 @@ public interface TabMyQuotesContract {
 
     interface PresenterListener {
         void setViewListener(ViewListener viewListener);
-        void onNextClicked();
     }
 }

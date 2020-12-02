@@ -11,8 +11,4 @@ public class TabMyQuotesPresenter implements TabMyQuotesContract.PresenterListen
         this.viewListener = viewListener;
     }
 
-    @Override
-    public void onNextClicked() {
-
-    }
 }

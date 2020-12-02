@@ -54,7 +54,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
     }
 
     private void setOnClickListeners() {
-        binding.btnSave.setOnClickListener(v -> saveQuoteInDatabase());
+        binding.btnSave.setOnClickListener(v -> presenterListener.onSaveButtonClicked());
     }
 
     @Override
