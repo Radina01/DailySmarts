@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.data.database.Quote;
+import com.example.dailysmarts.data.database.QuoteDBService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,9 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
         quotes = new ArrayList<>();
     }
 
+    @Inject
+    QuoteDBService quoteDBService;
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,7 +43,7 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
         Quote quote = quotes.get(position);
         holder.txtAuthor.setText(quote.quoteAuthor);
         holder.txtQuote.setText(quote.quoteText);
-
+        holder.btnSave.setOnClickListener(v-> deleteFromDb(quote));
     }
 
     public void setQuotes(List<Quote> quotes) {
@@ -52,6 +56,9 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
         return quotes.size();
     }
 
+    private void deleteFromDb(Quote quote){
+        quoteDBService.deleteQuote(quote);
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtQuote;
@@ -66,5 +73,6 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
             btnSave = itemView.findViewById(R.id.btnSave);
             btnShare = itemView.findViewById(R.id.btnShare);
         }
+
     }
 }
