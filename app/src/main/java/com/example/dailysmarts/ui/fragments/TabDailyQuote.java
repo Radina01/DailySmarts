@@ -54,8 +54,13 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
             @Override
             public void onData(List<DailyQuote> data) {
                 if (data != null){
-                    binding.txtQuote.setText(data.get(0).getQuoteText());
-                    binding.txtAuthor.setText(data.get(0).getQuoteAuthor());
+                    if (data.get(0).getQuoteDate().equalsIgnoreCase(getDate())) {
+                        binding.txtQuote.setText(data.get(0).getQuoteText());
+                        binding.txtAuthor.setText(data.get(0).getQuoteAuthor());
+                    }
+                    else {
+                        generateNewQuote();
+                    }
                 }
                 else {
                     generateNewQuote();
@@ -117,22 +122,28 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
             @Override
             public void onQuoteReceived(String quote, String author) {
-                binding.txtQuote.setText(quote);
-                binding.txtAuthor.setText(author);
                 dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
                     @Override
                     public void onData(List<DailyQuote> data) {
                         if (data != null){
                             dailyQuoteDBService.deleteQuote(data.get(0));
-                            DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
+                            DailyQuote dailyQuote = new DailyQuote(quote, author, getDate());
                             dailyQuoteDBService.addQuote(dailyQuote);
+                            binding.txtQuote.setText(dailyQuote.getQuoteText());
+                            binding.txtAuthor.setText(dailyQuote.getQuoteAuthor());
                         }
                         else {
+                            binding.txtQuote.setText(quote);
+                            binding.txtAuthor.setText(author);
                             DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
                             dailyQuoteDBService.addQuote(dailyQuote);
                         }
                     }
                 });
+                binding.txtQuote.setText(quote);
+                binding.txtAuthor.setText(author);
+                DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
+                dailyQuoteDBService.addQuote(dailyQuote);
             }
 
             @Override
