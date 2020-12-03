@@ -1,5 +1,7 @@
 package com.example.dailysmarts.ui.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import javax.inject.Inject;
 public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHolder> {
 
     List<Quote> quotes;
+    Context context;
 
     @Inject
     public MyQuotesAdapter() {
@@ -35,7 +38,8 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_quote, parent, false);
 
-        quoteDBService = new QuoteDBService(parent.getContext());
+        this.context = parent.getContext();
+        quoteDBService = new QuoteDBService(context);
         return new ViewHolder(itemView);
     }
 
@@ -45,6 +49,16 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
         holder.txtAuthor.setText(quote.quoteAuthor);
         holder.txtQuote.setText(quote.quoteText);
         holder.btnSave.setOnClickListener(v-> deleteFromDb(quote, holder.btnSave));
+        holder.btnShare.setOnClickListener(v -> shareQuote(quote));
+    }
+
+    private void shareQuote(Quote quote) {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = quote.getQuoteText() + "\n         -" + quote.getQuoteAuthor();
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        context.startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
     public void setQuotes(List<Quote> quotes) {

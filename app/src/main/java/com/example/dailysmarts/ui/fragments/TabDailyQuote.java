@@ -1,5 +1,7 @@
 package com.example.dailysmarts.ui.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,6 +57,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     private void setOnClickListeners() {
         binding.btnSave.setOnClickListener(v -> presenterListener.onSaveButtonClicked());
+        binding.btnShare.setOnClickListener(v -> shareQuote());
     }
 
     @Override
@@ -71,9 +74,10 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
     public void generateNewQuote() {
         Api.getInstance().getRandomEngQuote(new Api.ApiListener() {
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onQuoteReceived(String quote, String author) {
-                binding.txtQuote.setText(quote);
+                binding.txtQuote.setText("\"" + quote + "\"");
                 binding.txtAuthor.setText(author);
             }
 
@@ -95,5 +99,15 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
 
         binding.btnSave.setBackgroundResource(R.drawable.full_heart);
+    }
+
+    @Override
+    public void shareQuote() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = binding.txtQuote.getText().toString() + "\n             -" + binding.txtAuthor.getText().toString();
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Quote");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 }
