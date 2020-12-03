@@ -67,6 +67,14 @@ public class MainActivity extends BaseActivity {
         }
         else {
             tabManager();
+            SwipeRefreshLayout pullToRefresh = findViewById(R.id.swipeRefresh);
+            pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    refreshData(); // your code
+                    pullToRefresh.setRefreshing(false);
+                }
+            });
         }
     }
 
@@ -91,9 +99,10 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    void refreshData(){
+    void refreshData() {
         tabMyQuotes.reload();
         tabDailyQuote.reload();
+    }
 
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

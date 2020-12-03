@@ -11,4 +11,9 @@ public class TabMyQuotesPresenter implements TabMyQuotesContract.PresenterListen
         this.viewListener = viewListener;
     }
 
+    @Override
+    public void reloadResources() {
+        viewListener.reloadResources();
+    }
+
 }
