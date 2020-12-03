@@ -82,7 +82,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 Toast.makeText(getContext(), "Something happened", Toast.LENGTH_LONG).show();
             }
         });
-        binding.btnSave.setBackgroundResource(R.drawable.full_heart);
+        binding.btnSave.setBackgroundResource(R.drawable.empty_heart);
     }
 
     @Override
