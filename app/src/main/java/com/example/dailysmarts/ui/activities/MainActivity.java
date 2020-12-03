@@ -91,10 +91,10 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    void refreshData(){
+    void refreshData() {
         tabMyQuotes.reload();
         tabDailyQuote.reload();
-
+    }
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
