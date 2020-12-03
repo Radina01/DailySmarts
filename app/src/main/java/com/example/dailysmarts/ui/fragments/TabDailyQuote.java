@@ -126,7 +126,9 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                     @Override
                     public void onData(List<DailyQuote> data) {
                         if (data != null){
-                            dailyQuoteDBService.deleteQuote(data.get(0));
+                            for (int i = 0; i < data.size(); i++) {
+                                dailyQuoteDBService.deleteQuote(data.get(i));
+                            }
                             DailyQuote dailyQuote = new DailyQuote(quote, author, getDate());
                             dailyQuoteDBService.addQuote(dailyQuote);
                             binding.txtQuote.setText(dailyQuote.getQuoteText());
