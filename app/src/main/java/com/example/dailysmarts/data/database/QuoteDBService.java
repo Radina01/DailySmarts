@@ -9,12 +9,12 @@ import javax.inject.Inject;
 
 import dagger.Provides;
 
-public class QuoteService {
+public class QuoteDBService {
 
     @Inject QuoteDao quoteDao;
 
     @Inject
-    public QuoteService(Context context) {
+    public QuoteDBService(Context context) {
         quoteDao = Database.getInstance(context).quoteDao();
     }
 

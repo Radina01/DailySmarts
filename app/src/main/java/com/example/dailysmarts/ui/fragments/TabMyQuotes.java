@@ -1,27 +1,26 @@
 package com.example.dailysmarts.ui.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.dailysmarts.R;
-import com.example.dailysmarts.data.database.QuoteService;
-import com.example.dailysmarts.databinding.FragmentMyQuotesBinding;
+import com.example.dailysmarts.data.database.QuoteDBService;
+
 import com.example.dailysmarts.ui.adapters.MyQuotesAdapter;
 
 import javax.inject.Inject;
 
-public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> {
+public class TabMyQuotes extends BaseFragment<Frag> {
 
-    @Inject QuoteService quoteService;
+    @Inject
+    QuoteDBService quoteDBService;
     @Inject MyQuotesAdapter adapter;
 
     @Inject
-    public TabMyQuotes(QuoteService quoteService, MyQuotesAdapter adapter) {
-        this.quoteService = quoteService;
+    public TabMyQuotes(QuoteDBService quoteDBService, MyQuotesAdapter adapter) {
+        this.quoteDBService = quoteDBService;
         this.adapter = adapter;
     }
 
@@ -32,7 +31,7 @@ public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> {
 
     @Override
     protected void onFragmentCreated(View view, Bundle savedInstanceState) {
-        quoteService = new QuoteService(getContext());
+        quoteDBService = new QuoteDBService(getContext());
 
         binding.rvQuotes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         adapter = new MyQuotesAdapter();
@@ -43,7 +42,8 @@ public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> {
     }
 
     private void loadQuotes() {
-        quoteService.getAllQuotes(data -> adapter.setQuotes(data));
+        quoteDBService.getAllQuotes(data -> adapter.setQuotes(data));
+
     }
 
 
