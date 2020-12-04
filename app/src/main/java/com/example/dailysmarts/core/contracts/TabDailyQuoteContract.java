@@ -6,11 +6,13 @@ public interface TabDailyQuoteContract {
         void generateNewQuote();
         void saveQuoteInDatabase();
         void shareQuote();
+        void changeLanguage();
     }
 
     interface PresenterListener {
         void setViewListener(ViewListener viewListener);
         void onRefreshButtonClicked();
+        void onLanguageButtonClicked();
         void onSaveButtonClicked();
         void onShareButtonClicked();
     }
