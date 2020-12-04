@@ -198,7 +198,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         binding.btnSave.setBackgroundResource(R.drawable.full_heart);
     }
 
-    public void getQuote(){
+    public void getQuote() {
         Api.getInstance().getRandomEngQuote(new Api.ApiListener() {
             @Override
             public void onQuoteReceived(String quote, String author) {
@@ -217,6 +217,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 Toast.makeText(getContext(), "Something happened", Toast.LENGTH_LONG).show();
             }
         });
+    }
 
 
     @Override
