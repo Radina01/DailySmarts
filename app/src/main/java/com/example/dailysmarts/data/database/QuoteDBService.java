@@ -4,11 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
-
-import dagger.Provides;
 
 public class QuoteDBService {
 
@@ -53,6 +50,21 @@ public class QuoteDBService {
             protected Void doInBackground(Void... voids) {
                 quoteDao.deleteQuote(quote);
                 return null;
+            }
+        }.execute();
+    }
+
+    public void ifExists(DataListener<Boolean> dataListener, String quote) {
+
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                return quoteDao.ifExists(quote);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean ifExists) {
+                dataListener.onData(ifExists);
             }
         }.execute();
     }

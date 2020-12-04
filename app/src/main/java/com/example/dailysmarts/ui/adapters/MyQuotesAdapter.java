@@ -25,20 +25,18 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
     List<Quote> quotes;
     Context context;
 
-    @Inject
-    public MyQuotesAdapter() {
+    public MyQuotesAdapter(Context context) {
         quotes = new ArrayList<>();
+        this.context = context;
     }
 
-    QuoteDBService quoteDBService;
+    private QuoteDBService quoteDBService;
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_quote, parent, false);
-
-        this.context = parent.getContext();
         quoteDBService = new QuoteDBService(context);
         return new ViewHolder(itemView);
     }
@@ -48,7 +46,7 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
         Quote quote = quotes.get(position);
         holder.txtAuthor.setText(quote.quoteAuthor);
         holder.txtQuote.setText(quote.quoteText);
-        holder.btnSave.setOnClickListener(v-> deleteFromDb(quote, holder.btnSave));
+        holder.btnSave.setOnClickListener(v-> deleteFromDb(quote));
         holder.btnShare.setOnClickListener(v -> shareQuote(quote));
     }
 
@@ -71,9 +69,10 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
         return quotes.size();
     }
 
-    private void deleteFromDb(Quote quote, Button button){
+    private void deleteFromDb(Quote quote){
         quoteDBService.deleteQuote(quote);
-        button.setBackgroundResource(R.drawable.empty_heart);
+        quotes.remove(quote);
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

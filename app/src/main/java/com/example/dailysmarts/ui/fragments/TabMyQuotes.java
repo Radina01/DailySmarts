@@ -19,15 +19,15 @@ public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> implement
 
     @Inject
     QuoteDBService quoteDBService;
-    @Inject MyQuotesAdapter adapter;
+    private MyQuotesAdapter adapter;
 
     @Inject
     TabMyQuotesContract.PresenterListener presenterListener;
 
     @Inject
-    public TabMyQuotes(QuoteDBService quoteDBService, MyQuotesAdapter adapter) {
+    public TabMyQuotes(QuoteDBService quoteDBService) {
         this.quoteDBService = quoteDBService;
-        this.adapter = adapter;
+
     }
 
     @Override
@@ -38,28 +38,29 @@ public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> implement
     @Override
     protected void onFragmentCreated(View view, Bundle savedInstanceState) {
         quoteDBService = new QuoteDBService(getContext());
-
         presenterListener.setViewListener(this);
 
-        binding.rvQuotes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new MyQuotesAdapter();
-        binding.rvQuotes.setAdapter(adapter);
-
-        loadQuotes();
-
+        recViewSetUp();
     }
 
 
     private void loadQuotes() {}
 
     @Override
-    public void reload() {
-        presenterListener.reloadResources();
+    public void onResume() {
+        super.onResume();
+        loadStudents();
     }
 
 
-    @Override
-    public void reloadResources() {
-        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+    private void loadStudents() {
+        quoteDBService.getAllQuotes(data -> adapter.setQuotes(data));
+    }
+
+
+    private void recViewSetUp(){
+        binding.rvQuotes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        adapter = new MyQuotesAdapter(getContext());
+        binding.rvQuotes.setAdapter(adapter);
     }
 }

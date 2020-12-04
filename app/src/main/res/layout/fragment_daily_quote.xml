@@ -27,7 +27,7 @@
                 android:layout_margin="6dp"
                 android:text="@string/quote"
                 android:textColor="@color/colorBlack"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 app:layout_constraintBottom_toTopOf="@id/respLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

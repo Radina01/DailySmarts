@@ -42,6 +42,8 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
     @Inject
     QuoteDBService dbService;
 
+    private boolean ifExists;
+
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_daily_quote;
@@ -110,7 +112,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     private void setOnClickListeners() {
         binding.btnSave.setOnClickListener(v -> presenterListener.onSaveButtonClicked());
-        binding.btnShare.setOnClickListener(v -> shareQuote());
+        binding.btnShare.setOnClickListener(v -> presenterListener.onShareButtonClicked());
     }
 
     @Override
@@ -226,5 +228,9 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
+    }
+
+    private void checkIfExists(Boolean ifExists){
+        this.ifExists = (boolean) ifExists;
     }
 }

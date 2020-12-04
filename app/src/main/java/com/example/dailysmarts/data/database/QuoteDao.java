@@ -17,4 +17,7 @@ public interface QuoteDao {
 
     @Delete
     void deleteQuote(Quote quote);
+
+    @Query("SELECT EXISTS (SELECT 1 FROM quotes WHERE quote = :quote)")
+    boolean ifExists(String quote);
 }
