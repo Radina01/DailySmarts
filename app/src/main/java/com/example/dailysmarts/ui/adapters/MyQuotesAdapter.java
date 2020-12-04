@@ -1,5 +1,7 @@
 package com.example.dailysmarts.ui.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +23,13 @@ import javax.inject.Inject;
 public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHolder> {
 
     List<Quote> quotes;
+    Context context;
 
     @Inject
     public MyQuotesAdapter() {
         quotes = new ArrayList<>();
     }
 
-    @Inject
     QuoteDBService quoteDBService;
 
     @NonNull
@@ -35,6 +37,9 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_quote, parent, false);
+
+        this.context = parent.getContext();
+        quoteDBService = new QuoteDBService(context);
         return new ViewHolder(itemView);
     }
 
@@ -43,7 +48,17 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
         Quote quote = quotes.get(position);
         holder.txtAuthor.setText(quote.quoteAuthor);
         holder.txtQuote.setText(quote.quoteText);
-        holder.btnSave.setOnClickListener(v-> deleteFromDb(quote));
+        holder.btnSave.setOnClickListener(v-> deleteFromDb(quote, holder.btnSave));
+        holder.btnShare.setOnClickListener(v -> shareQuote(quote));
+    }
+
+    private void shareQuote(Quote quote) {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = quote.getQuoteText() + "\n         -" + quote.getQuoteAuthor();
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        context.startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
     public void setQuotes(List<Quote> quotes) {
@@ -56,8 +71,9 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
         return quotes.size();
     }
 
-    private void deleteFromDb(Quote quote){
+    private void deleteFromDb(Quote quote, Button button){
         quoteDBService.deleteQuote(quote);
+        button.setBackgroundResource(R.drawable.empty_heart);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

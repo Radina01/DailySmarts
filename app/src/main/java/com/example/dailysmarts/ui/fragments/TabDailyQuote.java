@@ -1,5 +1,8 @@
 package com.example.dailysmarts.ui.fragments;
 
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +51,9 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
     @Override
     protected void onFragmentCreated(View view, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
+        onClickShare();
+
         presenterListener.setViewListener(this);
         dailyQuoteDBService = new DailyQuoteDBService(getContext());
         dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
@@ -104,6 +110,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     private void setOnClickListeners() {
         binding.btnSave.setOnClickListener(v -> presenterListener.onSaveButtonClicked());
+        binding.btnShare.setOnClickListener(v -> shareQuote());
     }
 
     @Override
@@ -116,12 +123,30 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         getLayoutRes();
     }
 
+
+    public void onClickShare(){
+        binding.btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "Here is the share content body";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            }
+        });
+    }
+
+
     @Override
     public void generateNewQuote() {
         Api.getInstance().getRandomEngQuote(new Api.ApiListener() {
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onQuoteReceived(String quote, String author) {
+
                 dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
                     @Override
                     public void onData(List<DailyQuote> data) {
@@ -143,6 +168,9 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                     }
                 });
                 binding.txtQuote.setText(quote);
+
+                binding.txtQuote.setText("\"" + quote + "\"");
+
                 binding.txtAuthor.setText(author);
                 DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
                 dailyQuoteDBService.addQuote(dailyQuote);
@@ -153,7 +181,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 Toast.makeText(getContext(), "Something happened", Toast.LENGTH_LONG).show();
             }
         });
-        binding.btnSave.setBackgroundResource(R.drawable.full_heart);
+        binding.btnSave.setBackgroundResource(R.drawable.empty_heart);
     }
 
     @Override
@@ -167,6 +195,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
         binding.btnSave.setBackgroundResource(R.drawable.full_heart);
     }
+
     public void getQuote(){
         Api.getInstance().getRandomEngQuote(new Api.ApiListener() {
             @Override
@@ -186,5 +215,16 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 Toast.makeText(getContext(), "Something happened", Toast.LENGTH_LONG).show();
             }
         });
+
+
+    @Override
+    public void shareQuote() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = binding.txtQuote.getText().toString() + "\n             -" + binding.txtAuthor.getText().toString();
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Quote");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
     }
 }

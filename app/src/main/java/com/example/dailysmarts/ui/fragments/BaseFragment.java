@@ -1,20 +1,19 @@
 package com.example.dailysmarts.ui.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
-import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.DaggerFragment;
 
-public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFragment {
+public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFragment{
 
     public static final String TAG = BaseFragment.class.getSimpleName();
 
@@ -37,6 +36,10 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
 
     protected abstract void onFragmentCreated(View view, Bundle savedInstanceState);
 
+    void onClickShare(Button button){
+
+    }
 
     public abstract void reload();
+
 }

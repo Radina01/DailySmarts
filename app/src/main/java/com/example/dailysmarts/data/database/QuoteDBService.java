@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -11,7 +12,7 @@ import dagger.Provides;
 
 public class QuoteDBService {
 
-    private final QuoteDao quoteDao;
+    @Inject QuoteDao quoteDao;
 
     @Inject
     public QuoteDBService(Context context) {
