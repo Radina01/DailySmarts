@@ -1,6 +1,7 @@
 package com.example.dailysmarts.di;
 
 import android.app.Application;
+import android.provider.ContactsContract;
 
 import com.example.dailysmarts.DailySmartsApplication;
 import com.example.dailysmarts.di.module.ActivityModule;
