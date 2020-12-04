@@ -53,7 +53,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
             @Override
             public void onData(List<DailyQuote> data) {
-                if (data != null){
+                if (!data.isEmpty()){
                     if (data.get(0).getQuoteDate().equalsIgnoreCase(getDate())) {
                         binding.txtQuote.setText(data.get(0).getQuoteText());
                         binding.txtAuthor.setText(data.get(0).getQuoteAuthor());
@@ -125,7 +125,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
                     @Override
                     public void onData(List<DailyQuote> data) {
-                        if (data != null){
+                        if (!data.isEmpty()){
                             for (int i = 0; i < data.size(); i++) {
                                 dailyQuoteDBService.deleteQuote(data.get(i));
                             }
