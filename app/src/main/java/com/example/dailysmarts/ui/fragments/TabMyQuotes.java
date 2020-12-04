@@ -9,6 +9,7 @@ import com.example.dailysmarts.R;
 import com.example.dailysmarts.core.contracts.TabDailyQuoteContract;
 import com.example.dailysmarts.core.contracts.TabMyQuotesContract;
 import com.example.dailysmarts.data.database.QuoteDBService;
+
 import com.example.dailysmarts.databinding.FragmentMyQuotesBinding;
 import com.example.dailysmarts.ui.adapters.MyQuotesAdapter;
 
@@ -38,8 +39,12 @@ public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> implement
     protected void onFragmentCreated(View view, Bundle savedInstanceState) {
         quoteDBService = new QuoteDBService(getContext());
         presenterListener.setViewListener(this);
+
         recViewSetUp();
     }
+
+
+    private void loadQuotes() {}
 
     @Override
     public void onResume() {

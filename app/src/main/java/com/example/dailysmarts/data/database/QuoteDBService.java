@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 public class QuoteDBService {
 
-    private final QuoteDao quoteDao;
+    @Inject QuoteDao quoteDao;
 
     @Inject
     public QuoteDBService(Context context) {

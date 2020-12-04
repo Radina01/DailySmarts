@@ -1,5 +1,6 @@
 package com.example.dailysmarts.ui.fragments;
 
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +15,19 @@ import androidx.annotation.NonNull;
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.core.contracts.TabDailyQuoteContract;
 import com.example.dailysmarts.data.api.Api;
+import com.example.dailysmarts.data.database.DailyQuote;
+import com.example.dailysmarts.data.database.DailyQuoteDBService;
 import com.example.dailysmarts.data.database.Quote;
 import com.example.dailysmarts.data.database.QuoteDBService;
 import com.example.dailysmarts.databinding.FragmentDailyQuoteBinding;
 import com.example.dailysmarts.ui.activities.MainActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -25,6 +35,10 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     @Inject
     TabDailyQuoteContract.PresenterListener presenterListener;
+
+    @Inject
+    DailyQuoteDBService dailyQuoteDBService;
+
     @Inject
     QuoteDBService dbService;
 
@@ -35,13 +49,52 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         return R.layout.fragment_daily_quote;
     }
 
+    private List<DailyQuote> dailyQuoteList = new ArrayList<>();
     @Override
     protected void onFragmentCreated(View view, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
+        onClickShare();
+
         presenterListener.setViewListener(this);
+        dailyQuoteDBService = new DailyQuoteDBService(getContext());
+        dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
+            @Override
+            public void onData(List<DailyQuote> data) {
+                if (!data.isEmpty()){
+                    if (data.get(0).getQuoteDate().equalsIgnoreCase(getDate())) {
+                        binding.txtQuote.setText(data.get(0).getQuoteText());
+                        binding.txtAuthor.setText(data.get(0).getQuoteAuthor());
+                    }
+                    else {
+                        generateNewQuote();
+                    }
+                }
+                else {
+                    generateNewQuote();
+                }
+            }
+        });
+//        dailyQuoteDBService.getAllQuotes(data -> getQuotesList(data));
+//        if (dailyQuoteList.size() > 0) {
+//            binding.txtQuote.setText(dailyQuoteList.get(0).getQuoteText());
+//            binding.txtAuthor.setText(dailyQuoteList.get(0).getQuoteAuthor());
+//        }
+//        else{
+//            generateNewQuote();
+//
+//        }
         setOnClickListeners();
     }
-
+    private void getQuotesList(List<DailyQuote> quoteList){
+        this.dailyQuoteList = quoteList;
+    }
+    private String getDate(){
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        return formattedDate;
+    }
     @Inject
     public TabDailyQuote() {
     }
@@ -72,6 +125,22 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         getLayoutRes();
     }
 
+
+    public void onClickShare(){
+        binding.btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "Here is the share content body";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            }
+        });
+    }
+
+
     @Override
     public void generateNewQuote() {
         Api.getInstance().getRandomEngQuote(new Api.ApiListener() {
@@ -79,8 +148,34 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
             @SuppressLint("SetTextI18n")
             @Override
             public void onQuoteReceived(String quote, String author) {
+
+                dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
+                    @Override
+                    public void onData(List<DailyQuote> data) {
+                        if (!data.isEmpty()){
+                            for (int i = 0; i < data.size(); i++) {
+                                dailyQuoteDBService.deleteQuote(data.get(i));
+                            }
+                            DailyQuote dailyQuote = new DailyQuote(quote, author, getDate());
+                            dailyQuoteDBService.addQuote(dailyQuote);
+                            binding.txtQuote.setText(dailyQuote.getQuoteText());
+                            binding.txtAuthor.setText(dailyQuote.getQuoteAuthor());
+                        }
+                        else {
+                            binding.txtQuote.setText(quote);
+                            binding.txtAuthor.setText(author);
+                            DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
+                            dailyQuoteDBService.addQuote(dailyQuote);
+                        }
+                    }
+                });
+                binding.txtQuote.setText(quote);
+
                 binding.txtQuote.setText("\"" + quote + "\"");
+
                 binding.txtAuthor.setText(author);
+                DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
+                dailyQuoteDBService.addQuote(dailyQuote);
             }
 
             @Override
@@ -103,6 +198,27 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         binding.btnSave.setBackgroundResource(R.drawable.full_heart);
     }
 
+    public void getQuote(){
+        Api.getInstance().getRandomEngQuote(new Api.ApiListener() {
+            @Override
+            public void onQuoteReceived(String quote, String author) {
+                Date c = Calendar.getInstance().getTime();
+                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+                String formattedDate = df.format(c);
+                DailyQuote dailyQuote = new DailyQuote(quote, author, formattedDate);
+                dailyQuoteDBService.addQuote(dailyQuote);
+                binding.txtQuote.setText(quote);
+                binding.txtAuthor.setText(author);
+
+            }
+
+            @Override
+            public void onFailure() {
+                Toast.makeText(getContext(), "Something happened", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     @Override
     public void shareQuote() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -111,6 +227,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Quote");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
     }
 
     private void checkIfExists(Boolean ifExists){
