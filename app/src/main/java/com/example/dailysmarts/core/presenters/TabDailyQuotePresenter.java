@@ -17,6 +17,11 @@ public class TabDailyQuotePresenter implements TabDailyQuoteContract.PresenterLi
     }
 
     @Override
+    public void onLanguageButtonClicked() {
+        viewListener.changeLanguage();
+    }
+
+    @Override
     public void onSaveButtonClicked() {
         viewListener.saveQuoteInDatabase();
     }
