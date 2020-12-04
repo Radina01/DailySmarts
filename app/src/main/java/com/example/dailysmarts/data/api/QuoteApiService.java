@@ -13,4 +13,5 @@ public interface QuoteApiService {
 
     @GET("/api/1.0/?method=getQuote&format=json&lang=ru")
     Call<Quote> getRandomRusQuote();
+
 }

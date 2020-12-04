@@ -100,7 +100,6 @@ public class MainActivity extends BaseActivity {
 
 
     void refreshData() {
-        tabMyQuotes.reload();
         tabDailyQuote.reload();
     }
 
