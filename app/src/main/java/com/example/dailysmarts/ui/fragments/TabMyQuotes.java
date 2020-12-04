@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.data.database.QuoteDBService;
 
+import com.example.dailysmarts.databinding.FragmentMyQuotesBinding;
 import com.example.dailysmarts.ui.adapters.MyQuotesAdapter;
 
 import javax.inject.Inject;
 
-public class TabMyQuotes extends BaseFragment<Frag> {
+public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> {
 
     @Inject
     QuoteDBService quoteDBService;
