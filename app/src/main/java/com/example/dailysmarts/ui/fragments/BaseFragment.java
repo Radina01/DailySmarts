@@ -38,6 +38,8 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
 
     void onClickShare(Button button){
 
-
     }
+
+    public abstract void reload();
+
 }

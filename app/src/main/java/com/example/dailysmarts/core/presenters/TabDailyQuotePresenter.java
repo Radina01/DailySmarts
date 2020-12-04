@@ -16,4 +16,14 @@ public class TabDailyQuotePresenter implements TabDailyQuoteContract.PresenterLi
         viewListener.generateNewQuote();
     }
 
+    @Override
+    public void onSaveButtonClicked() {
+        viewListener.saveQuoteInDatabase();
+    }
+
+    @Override
+    public void onShareButtonClicked() {
+        viewListener.shareQuote();
+    }
+
 }
