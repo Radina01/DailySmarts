@@ -1,6 +1,8 @@
 package com.example.dailysmarts.ui.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,9 +73,29 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
     }
 
     private void deleteFromDb(Quote quote){
-        quoteDBService.deleteQuote(quote);
-        quotes.remove(quote);
-        notifyDataSetChanged();
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setTitle("Alert!");
+        alertDialog.setMessage("Are you sure you want to delete this quote?");
+        alertDialog.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                quoteDBService.deleteQuote(quote);
+                quotes.remove(quote);
+                notifyDataSetChanged();
+
+            }
+        });
+
+        AlertDialog dialog = alertDialog.create();
+        dialog.show();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

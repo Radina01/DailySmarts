@@ -7,7 +7,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class DailyQuoteDBService {
+public class
+DailyQuoteDBService {
     private final DailyQuoteDao dailyQuoteDao;
 
     @Inject
