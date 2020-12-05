@@ -23,12 +23,11 @@ public class TabDailyQuotePresenter implements TabDailyQuoteContract.PresenterLi
 
     @Override
     public void onSaveButtonClicked() {
-        viewListener.saveQuoteInDatabase();
+        viewListener.saveOrDeleteQuoteInDatabase();
     }
 
     @Override
     public void onShareButtonClicked() {
         viewListener.shareQuote();
     }
-
 }

@@ -25,12 +25,13 @@ public class MyQuotesAdapter extends RecyclerView.Adapter<MyQuotesAdapter.ViewHo
     List<Quote> quotes;
     Context context;
 
+    private QuoteDBService quoteDBService;
+
     public MyQuotesAdapter(Context context) {
         quotes = new ArrayList<>();
         this.context = context;
     }
 
-    private QuoteDBService quoteDBService;
 
     @NonNull
     @Override
