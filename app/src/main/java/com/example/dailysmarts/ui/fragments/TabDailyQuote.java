@@ -143,6 +143,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                         setIfCurrentQuoteExistsInDb();
                     }
                 });
+                Toast.makeText(getContext(), "Generated new quotes.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -188,7 +189,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     @Override
     public void changeLanguage() {
-
+        Toast.makeText(getContext(), "Language changed!", Toast.LENGTH_SHORT).show();
         if (isInEnglish) {
             showRussianQuote();
         } else {

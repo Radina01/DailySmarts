@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity {
 
 
     void refreshData() {
-        tabDailyQuote.reload();
+        tabDailyQuote.generateNewQuote();
     }
 
     private boolean isNetworkAvailable(){
