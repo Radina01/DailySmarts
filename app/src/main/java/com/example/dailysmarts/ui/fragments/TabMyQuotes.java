@@ -44,8 +44,6 @@ public class TabMyQuotes extends BaseFragment<FragmentMyQuotesBinding> implement
     }
 
 
-    private void loadQuotes() {}
-
     @Override
     public void onResume() {
         super.onResume();

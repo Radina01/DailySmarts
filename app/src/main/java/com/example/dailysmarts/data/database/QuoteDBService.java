@@ -69,6 +69,17 @@ public class QuoteDBService {
         }.execute();
     }
 
+    public void deleteQuoteByQuoteText(String quoteText) {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                quoteDao.deleteQuoteByQuoteText(quoteText);
+                return null;
+            }
+        }.execute();
+    }
+
     public interface DataListener<T> {
         void onData(T data);
     }

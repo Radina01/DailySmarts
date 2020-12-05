@@ -4,7 +4,7 @@ public interface TabDailyQuoteContract {
 
     interface ViewListener {
         void generateNewQuote();
-        void saveQuoteInDatabase();
+        void saveOrDeleteQuoteInDatabase();
         void shareQuote();
         void changeLanguage();
     }

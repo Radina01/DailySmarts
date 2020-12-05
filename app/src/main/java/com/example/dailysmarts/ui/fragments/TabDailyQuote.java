@@ -4,6 +4,7 @@ package com.example.dailysmarts.ui.fragments;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.dailysmarts.R;
 import com.example.dailysmarts.core.contracts.TabDailyQuoteContract;
@@ -30,6 +32,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 
@@ -44,8 +48,8 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
     @Inject
     QuoteDBService dbService;
 
-    private boolean ifExists;
     private boolean isInEnglish = true;
+    private boolean ifCurrentQuoteExistsInDb;
 
     @Override
     protected int getLayoutRes() {
@@ -55,20 +59,26 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
     @Override
     protected void onFragmentCreated(View view, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        onClickShare();
 
+        setIfCurrentQuoteExistsInDb();
         presenterListener.setViewListener(this);
         showEnglishQuote();
         setOnClickListeners();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setIfCurrentQuoteExistsInDb();
+    }
 
-    private String getDate(){
+    private String getDate() {
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
         return formattedDate;
     }
+
     @Inject
     public TabDailyQuote() {
     }
@@ -80,7 +90,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
             reload();
             return true;
         }
-        if (item.getItemId() == R.id.action_en_ru){
+        if (item.getItemId() == R.id.action_en_ru) {
             presenterListener.onLanguageButtonClicked();
             reload();
             return true;
@@ -90,8 +100,8 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
     }
 
     private void setOnClickListeners() {
-        binding.btnSave.setOnClickListener(v -> presenterListener.onSaveButtonClicked());
         binding.btnShare.setOnClickListener(v -> presenterListener.onShareButtonClicked());
+        binding.btnSave.setOnClickListener(v -> presenterListener.onSaveButtonClicked());
     }
 
     @Override
@@ -102,21 +112,6 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     public void reload() {
         getLayoutRes();
-    }
-
-
-    public void onClickShare(){
-        binding.btnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                String shareBody = "Here is the share content body";
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Share via"));
-            }
-        });
     }
 
 
@@ -131,7 +126,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
                     @Override
                     public void onData(List<DailyQuote> data) {
-                        if (!data.isEmpty()){
+                        if (!data.isEmpty()) {
                             for (int i = 0; i < data.size(); i++) {
                                 dailyQuoteDBService.deleteQuote(data.get(i));
                             }
@@ -139,22 +134,15 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                             dailyQuoteDBService.addQuote(dailyQuote);
                             binding.txtQuote.setText(dailyQuote.getQuoteText());
                             binding.txtAuthor.setText(dailyQuote.getQuoteAuthor());
-                        }
-                        else {
+                        } else {
                             binding.txtQuote.setText(quote);
                             binding.txtAuthor.setText(author);
                             DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
                             dailyQuoteDBService.addQuote(dailyQuote);
                         }
+                        setIfCurrentQuoteExistsInDb();
                     }
                 });
-//                binding.txtQuote.setText(quote);
-//
-//                binding.txtQuote.setText("\"" + quote + "\"");
-//
-//                binding.txtAuthor.setText(author);
-//                DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
-//                dailyQuoteDBService.addQuote(dailyQuote);
             }
 
             @Override
@@ -164,6 +152,7 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         });
         binding.btnSave.setBackgroundResource(R.drawable.empty_heart);
     }
+
     public void generateNewRussianQuote() {
         Api.getInstance().getRandomRusQuote(new Api.ApiListener() {
 
@@ -174,27 +163,20 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
                     @Override
                     public void onData(List<DailyQuote> data) {
-                        if (data.size() > 1){
+                        if (data.size() > 1) {
                             DailyQuote dailyQuote = new DailyQuote(quote, author, getDate());
                             dailyQuoteDBService.addQuote(dailyQuote);
                             binding.txtQuote.setText(dailyQuote.getQuoteText());
                             binding.txtAuthor.setText(dailyQuote.getQuoteAuthor());
-                        }
-                        else {
+                        } else {
                             binding.txtQuote.setText(quote);
                             binding.txtAuthor.setText(author);
                             DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
                             dailyQuoteDBService.addQuote(dailyQuote);
                         }
+                        setIfCurrentQuoteExistsInDb();
                     }
                 });
-//                binding.txtQuote.setText(quote);
-//
-//                binding.txtQuote.setText("\"" + quote + "\"");
-//
-//                binding.txtAuthor.setText(author);
-//                DailyQuote dailyQuote = new DailyQuote(String.valueOf(binding.txtQuote.getText()), String.valueOf(binding.txtAuthor.getText()), getDate());
-//                dailyQuoteDBService.addQuote(dailyQuote);
             }
 
             @Override
@@ -202,7 +184,6 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
                 Toast.makeText(getContext(), "Something happened", Toast.LENGTH_LONG).show();
             }
         });
-        binding.btnSave.setBackgroundResource(R.drawable.empty_heart);
     }
 
     @Override
@@ -210,11 +191,15 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
         if (isInEnglish) {
             showRussianQuote();
-        }
-        else {
+        } else {
             showEnglishQuote();
         }
         isInEnglish = !isInEnglish;
+    }
+
+    public void deleteQuote() {
+        dbService.deleteQuoteByQuoteText(binding.txtQuote.getText().toString());
+        binding.btnSave.setBackgroundResource(R.drawable.empty_heart);
     }
 
     private void showRussianQuote() {
@@ -222,52 +207,60 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
         dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
             @Override
             public void onData(List<DailyQuote> data) {
-                    if (data.size() > 1) {
-                        if (data.get(1).getQuoteDate().equalsIgnoreCase(getDate())) {
-                            binding.txtQuote.setText(data.get(1).getQuoteText());
-                            binding.txtAuthor.setText(data.get(1).getQuoteAuthor());
-                        } else {
-                            generateNewRussianQuote();
-                        }
+                if (data.size() > 1) {
+                    if (data.get(1).getQuoteDate().equalsIgnoreCase(getDate())) {
+                        binding.txtQuote.setText(data.get(1).getQuoteText());
+                        binding.txtAuthor.setText(data.get(1).getQuoteAuthor());
+                    } else {
+                        generateNewRussianQuote();
                     }
-                else {
+                } else {
                     generateNewRussianQuote();
                 }
+                setIfCurrentQuoteExistsInDb();
             }
         });
     }
+
     private void showEnglishQuote() {
         dailyQuoteDBService = new DailyQuoteDBService(getContext());
         dailyQuoteDBService.getAllQuotes(new QuoteDBService.DataListener<List<DailyQuote>>() {
             @Override
             public void onData(List<DailyQuote> data) {
-                if (!data.isEmpty()){
+                if (!data.isEmpty()) {
                     if (data.get(0).getQuoteDate().equalsIgnoreCase(getDate())) {
                         binding.txtQuote.setText(data.get(0).getQuoteText());
                         binding.txtAuthor.setText(data.get(0).getQuoteAuthor());
-                    }
-                    else {
+                    } else {
                         generateNewQuote();
                     }
-                }
-                else {
+                } else {
                     generateNewQuote();
                 }
+                setIfCurrentQuoteExistsInDb();
             }
         });
     }
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
-    public void saveQuoteInDatabase() {
-        //String author is used for checking if author is unknown(if the Api responses with empty string for author)
-        String author = binding.txtQuote.getText().toString().equals("") ? "unknown" : binding.txtQuote.getText().toString();
+    public void saveOrDeleteQuoteInDatabase() {
 
-        Quote quote = new Quote(author, binding.txtAuthor.getText().toString());
-        dbService.addQuote(quote);
+        if (ifCurrentQuoteExistsInDb) {
+            deleteQuote();
+            ifCurrentQuoteExistsInDb = false;
+        } else {
 
+            //String author is used for checking if author is unknown(if the Api responses with empty string for author)
+            String author = binding.txtQuote.getText().toString().equals("") ? "unknown" : binding.txtQuote.getText().toString();
 
-        binding.btnSave.setBackgroundResource(R.drawable.full_heart);
+            Quote quote = new Quote(author, binding.txtAuthor.getText().toString());
+            dbService.addQuote(quote);
+
+            binding.btnSave.setBackgroundResource(R.drawable.full_heart);
+            ifCurrentQuoteExistsInDb = true;
+        }
     }
 
 
@@ -282,7 +275,17 @@ public class TabDailyQuote extends BaseFragment<FragmentDailyQuoteBinding> imple
 
     }
 
-    private void checkIfExists(Boolean ifExists){
-        this.ifExists = (boolean) ifExists;
+    private void checkIfExists(Boolean ifExists) {
+        this.ifCurrentQuoteExistsInDb = (boolean) ifExists;
+        if (ifExists) {
+            binding.btnSave.setBackgroundResource(R.drawable.full_heart);
+        } else {
+            binding.btnSave.setBackgroundResource(R.drawable.empty_heart);
+        }
     }
+
+    private void setIfCurrentQuoteExistsInDb() {
+        dbService.ifExists(this::checkIfExists, binding.txtQuote.getText().toString());
+    }
+
 }
